@@ -1,0 +1,66 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.Scanner;
+
+public class Example10_5 extends JFrame {
+	
+	public Example10_5() {
+		setTitle("Example10_5");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+	
+		JLabel label = new JLabel("Love Java");
+		c.add(label);
+		label.addMouseListener(new MyMouseListener());
+		
+		label.setFont(new Font("TimesRoman", Font.PLAIN, 10));
+		label.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyChar() == '+') {
+					JLabel la = (JLabel)e.getSource();
+					Font f = la.getFont();
+					int size = f.getSize();
+					la.setFont(new Font("TimesRoman", Font.PLAIN, size+5)); 					
+				}
+				else if(e.getKeyChar() == '-') {
+					JLabel la = (JLabel)e.getSource();
+					Font f = la.getFont();
+					int size = f.getSize();
+					if(size <= 5)
+						return;
+					la.setFont(new Font("TimesRoman", Font.PLAIN, size-5)); 					
+				}	
+				else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+					JLabel la = (JLabel)e.getSource();
+					String t = la.getText();
+					StringBuffer b = new StringBuffer(t);
+					b = b.reverse();
+					t = b.toString();
+					la.setText(t);		
+				}				
+			}
+		});
+
+		setSize(1500,600);
+		setVisible(true);
+		
+		label.setFocusable(true); 
+		label.requestFocus(); 
+	}
+	
+	class MyMouseListener extends MouseAdapter {
+		public void mouseClicked(MouseEvent e) {
+			JLabel la = (JLabel)e.getSource();
+			String s = la.getFont().toString() + " " + la.getSize();
+			setTitle(s);
+		}
+	}
+	
+	
+	static public void main(String [] args) {
+		new Example10_5();
+	}
+}
